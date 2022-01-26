@@ -4,6 +4,7 @@ finding hidden messages in DNA.
 Content:
     1. get_count_pattern() function.
     2. get_frequency_table() function.
+    3. get_most_frequent_patterns() function.
 
 The supplementary materials can be found on
 the correspondent Coursera/Stepik course here:
@@ -81,3 +82,31 @@ def get_frequency_table(text, k):
         else:
             frequencies[pattern] += 1
     return frequencies
+
+
+def get_most_frequent_patterns(text, k):
+    """Calculates frequency table for each pattern
+    of length k in text and takes those,
+    which numbers of occurrencies in the text
+    are the maximum ones.
+
+    Examples:
+        >>> get_most_frequent_patterns('ACGTTGCATGTCGCATGATGCATGAGAGCT', 4)
+        ['GCAT', 'CATG']
+
+    Args:
+        text (str): The DNA sequence.
+        k (int): Number to find k-mers (patterns of length k).
+
+    Returns:
+        most_freq_patterns (list[str]).
+        List of the most frequently occurred patterns
+        in text of length k.
+    """
+    frequencies = get_frequency_table(text, k)
+    max_occurred_num = max(frequencies.values())
+    most_freq_patterns = list()
+    for pattern, occurrences in frequencies.items():
+        if occurrences == max_occurred_num:
+            most_freq_patterns.append(pattern)
+    return most_freq_patterns
