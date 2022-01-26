@@ -5,6 +5,7 @@ Content:
     1. get_count_pattern() function.
     2. get_frequency_table() function.
     3. get_most_frequent_patterns() function.
+    4. get_complementary_sequence() function.
 
 The supplementary materials can be found on
 the correspondent Coursera/Stepik course here:
@@ -110,3 +111,27 @@ def get_most_frequent_patterns(text, k):
         if occurrences == max_occurred_num:
             most_freq_patterns.append(pattern)
     return most_freq_patterns
+
+
+def get_complementary_sequence(pattern):
+    """Reverses pattern and places a complementary
+    nucleotide from the complementary_nucleotides dictionary
+    to the result.
+
+    Examples:
+        >>> get_complementary_sequence('AAAACCCGGT')
+        'ACCGGGTTTT'
+
+    Args:
+        pattern (str): The DNA sequence to process.
+
+    Returns:
+        complement (str).
+        Complementary DNA sequence to the given pattern.
+
+    """
+    complementary_nucleotides = {'A': 'T', 'T': 'A', 'C': 'G', 'G': 'C'}
+    complement = ''
+    for char in pattern[::-1]:
+        complement += complementary_nucleotides[char]
+    return complement
