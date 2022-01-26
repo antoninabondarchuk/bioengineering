@@ -6,6 +6,7 @@ Content:
     2. get_frequency_table() function.
     3. get_most_frequent_patterns() function.
     4. get_complementary_sequence() function.
+    5. get_pattern_start_positions() function.
 
 The supplementary materials can be found on
 the correspondent Coursera/Stepik course here:
@@ -59,7 +60,7 @@ def get_frequency_table(text, k):
     Iterates from index 0 to length of text
     minus length of the pattern and plus one
     to include the last possible match
-    as slice ([:]) function excludes the upper boundary.
+    as range function excludes the upper boundary.
 
     Examples:
         >>> get_frequency_table('CAAAAACTCAAA', 3)
@@ -135,3 +136,35 @@ def get_complementary_sequence(pattern):
     for char in pattern[::-1]:
         complement += complementary_nucleotides[char]
     return complement
+
+
+def get_pattern_start_positions(pattern, text):
+    """Iterates from index 0 to length of text
+    minus length of the pattern and plus one
+    to include the last possible match
+    as range function excludes the upper boundary.
+
+    Finds all matching substrings in text, and writes
+    their start positions.
+
+    Examples:
+        >>> get_pattern_start_positions('ATAT', 'GATATATGCATATACTTATAT')
+        [1, 3, 9, 17]
+
+    Args:
+        pattern (str): Substring to find in text.
+        text (str): The DNA sequence to process.
+
+    Returns:
+        pattern_start_positions (list[int]).
+        List of starting positions of pattern
+        in the text in ascending order.
+
+    """
+    len_pattern = len(pattern)
+    pattern_start_positions = list()
+    text_len_to_iterate = len(text) - len_pattern + 1
+    for i in range(text_len_to_iterate):
+        if text[i:i + len_pattern] == pattern:
+            pattern_start_positions.append(i)
+    return pattern_start_positions
