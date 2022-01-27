@@ -18,6 +18,7 @@ https://www.coursera.org/learn/dna-analysis/home/week/1
 Author:
 Antonina Bondarchuk
 antonina.bondarchuk1@gmail.com
+2022
 
 """
 
