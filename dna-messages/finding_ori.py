@@ -45,8 +45,9 @@ def find_minimum_skew(genome):
         minimums in genome, possible ori.
 
     """
-    min_levels_idxs_pairs = [(0, None), ]
     curr_level = 0
+    start_idx = None
+    min_levels_idxs_pairs = [(curr_level, start_idx), ]
     for i, char in enumerate(genome, start=1):
         if char == 'C':
             curr_level -= 1
