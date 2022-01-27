@@ -3,6 +3,7 @@ finding origin of replication in DNA.
 
 Content:
     1. find_minimum_skew() function.
+    2. hamming_distance() function.
 
 The supplementary materials can be found on
 the correspondent Coursera/Stepik course here:
@@ -64,3 +65,29 @@ def find_minimum_skew(genome):
 
     min_level_indexes = [idx for lvl, idx in min_levels_idxs_pairs]
     return min_level_indexes
+
+
+def hamming_distance(str_a, str_b):
+    """Calculates the number of characters which
+    are pairwise different in the given string of
+    equal length.
+
+    Examples:
+        >>> hamming_distance('GGGCCGTTGGT', 'GGACCGTTGAC')
+        3
+
+    See Also:
+        https://en.wikipedia.org/wiki/Hamming_distance
+
+    Args:
+        str_a (str): A string to compare with str_b.
+        str_b (str): A string to compare with str_a.
+
+    Returns:
+        distance (int). Quantity of characters differ.
+    """
+    distance = 0
+    for i in range(len(str_a)):
+        if str_a[i] != str_b[i]:
+            distance += 1
+    return distance
