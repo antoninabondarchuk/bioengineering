@@ -88,8 +88,8 @@ def hamming_distance(str_a, str_b):
 
     """
     distance = 0
-    for i in range(len(str_a)):
-        if str_a[i] != str_b[i]:
+    for i, a_char in enumerate(str_a):
+        if a_char != str_b[i]:
             distance += 1
     return distance
 
@@ -102,8 +102,8 @@ def approximate_pattern_matching_starts(pattern, genome, max_diff):
         hamming_distance()
 
     Examples:
-        >>> approximate_pattern_matching_starts('ATTCTGGA', 'CGCCCGAATCCAGAACGCATTCCCATATTTCGGGACCACTGGCCTC', 3)
-        [6, 7, 26, 27]
+        >>> approximate_pattern_matching_starts('AAAAA', 'AACAAGCTGATAAACATTTAAAGAG', 2)
+        [0, 1, 8, 9, 10, 11, 12, 17, 18, 19, 20]
 
     Args:
         pattern (str): Substring to match.
@@ -124,3 +124,30 @@ def approximate_pattern_matching_starts(pattern, genome, max_diff):
         if hamming_distance(genome[i:i+pattern_len], pattern) <= max_diff:
             matching_start_positions.append(i)
     return matching_start_positions
+
+
+def immediate_neighbors(pattern):
+    """Finds all possible patterns to pattern, which
+    differs only with 1 character. Moreover, the only
+    possible characters are 'A', 'T', 'C', 'G'.
+
+    Examples:
+        >>> immediate_neighbors('ATG')
+        ['ATG', 'TTG', 'GTG', 'CTG', 'AAG', 'AGG', 'ACG', 'ATA', 'ATT', 'ATC']
+
+    Args:
+        pattern (str): A part of DNA sequence to process.
+
+    Returns:
+        (list[str]). List of all patterns that are different
+        from the given with only 1 character.
+
+    """
+    neighborhood = [pattern, ]
+    nucleotides = ['A', 'T', 'G', 'C']
+    for i, nucleotide in enumerate(pattern):
+        for another_n in nucleotides:
+            if another_n != nucleotide:
+                neighbor = ''.join((pattern[:i], another_n, pattern[i+1:]))
+                neighborhood.append(neighbor)
+    return neighborhood
