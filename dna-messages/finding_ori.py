@@ -85,9 +85,42 @@ def hamming_distance(str_a, str_b):
 
     Returns:
         distance (int). Quantity of characters differ.
+
     """
     distance = 0
     for i in range(len(str_a)):
         if str_a[i] != str_b[i]:
             distance += 1
     return distance
+
+
+def approximate_pattern_matching_starts(pattern, genome, max_diff):
+    """Finds all approximate occurrences of a pattern in a string
+    while iterating through genome - pattern length.
+
+    References:
+        hamming_distance()
+
+    Examples:
+        >>> approximate_pattern_matching_starts('ATTCTGGA', 'CGCCCGAATCCAGAACGCATTCCCATATTTCGGGACCACTGGCCTC', 3)
+        [6, 7, 26, 27]
+
+    Args:
+        pattern (str): Substring to match.
+        genome (str): A DNA sequence to process.
+        max_diff (int): Maximum number of mismatched
+        characters between pattern and substring of genome.
+
+    Returns:
+        matching_start_positions (list[int]). List of start
+        indexes of substrings that fully or slightly
+        (according to max_diff) matches in ascending order.
+
+    """
+    pattern_len = len(pattern)
+    genome_len_to_iterate = len(genome) - pattern_len + 1
+    matching_start_positions = list()
+    for i in range(genome_len_to_iterate):
+        if hamming_distance(genome[i:i+pattern_len], pattern) <= max_diff:
+            matching_start_positions.append(i)
+    return matching_start_positions
