@@ -105,6 +105,7 @@ def get_most_frequent_patterns(text, k):
         most_freq_patterns (list[str]).
         List of the most frequently occurred patterns
         in text of length k.
+
     """
     frequencies = get_frequency_table(text, k)
     max_occurred_num = max(frequencies.values())

@@ -7,6 +7,8 @@ Content:
     3. approximate_pattern_matching_starts().
     4. immediate_neighbors() function.
     5. get_all_neighbors() function.
+    6. frequent_words_with_mismatches().
+    7. total_complement_frequent_patterns_with_mismatches().
 
 The supplementary materials can be found on
 the correspondent Coursera/Stepik course here:
@@ -21,6 +23,7 @@ antonina.bondarchuk1@gmail.com
 2022
 
 """
+from basics import get_complementary_sequence
 
 
 def find_minimum_skew(genome):
@@ -170,7 +173,7 @@ def get_all_neighbors(pattern, max_diff):
         characters between pattern and substring of genome.
 
     Returns:
-        (list[str]). List of all strings of the same length as given
+        neighborhood (list[str]). List of all strings of the same length as given
         pattern, but differ with at most max_diff number characters.
 
     """
@@ -189,3 +192,89 @@ def get_all_neighbors(pattern, max_diff):
         else:
             neighborhood.append(''.join((pattern[0], txt)))
     return neighborhood
+
+
+def frequent_words_with_mismatches(genome, k, max_diff):
+    """Finds frequent patterns of length k (k-mers)
+    with their maximum difference in max_diff characters.
+
+    Iterates from index 0 to length of text
+    minus length of the pattern and plus one
+    to include the last possible match
+    as range function excludes the upper boundary.
+
+    Examples:
+        >>> frequent_words_with_mismatches('ACGTTGCATGTCGCATGATGCATGAGAGCT', 4, 1)
+        ['ATGT', 'GATG', 'ATGC']
+
+    Args:
+        genome (str): A DNA sequence to process.
+        k (int): Number to find k-mers (patterns of length k).
+        max_diff (int): Maximum number of mismatched
+        characters between pattern and substring of genome.
+
+    Returns:
+         patterns (list[str]). List of all most frequent k-mers and patterns
+         that differ from those with at maximum max_diff characters.
+
+    """
+    patterns = list()
+    frequency_map = dict()
+    for i, _ in enumerate(genome[:-k+1]):
+        pattern = genome[i:i+k]
+        neighborhood = get_all_neighbors(pattern, max_diff)
+        for neighbor in neighborhood:
+            if neighbor not in frequency_map:
+                frequency_map[neighbor] = 1
+            else:
+                frequency_map[neighbor] += 1
+
+    max_occurred_num = max(frequency_map.values())
+    for pattern, occurrences in frequency_map.items():
+        if occurrences == max_occurred_num:
+            patterns.append(pattern)
+    return patterns
+
+
+def total_complement_frequent_patterns_with_mismatches(genome, k, max_diff):
+    """Finds the most frequently appeares pattern and its complementary one
+    by counting neighbors occurance as well.
+
+    Iterates from index 0 to length of text
+    minus length of the pattern and plus one
+    to include the last possible match
+    as range function excludes the upper boundary.
+
+    Examples:
+        >>> total_complement_frequent_patterns_with_mismatches('ACGTTGCATGTCGCATGATGCATGAGAG', 4, 1)
+        ['ACAT', 'ATGT']
+
+    Args:
+        genome (str): A DNA sequence to process.
+        k (int): Number to find k-mers (patterns of length k).
+        max_diff (int): Maximum number of mismatched
+        characters between pattern and substring of genome.
+
+    Returns:
+        patterns (list[str]). List of all most frequent k-mers and patterns
+        that differ from those with at maximum max_diff characters.
+
+    """
+    patterns = list()
+    frequency_map = dict()
+    for i, _ in enumerate(genome[:-k + 1]):
+        pattern = genome[i:i + k]
+        complement_pattern = get_complementary_sequence(pattern)
+        neighborhood = (get_all_neighbors(pattern, max_diff)
+                        + get_all_neighbors(complement_pattern, max_diff))
+        for neighbor in neighborhood:
+            if neighbor not in frequency_map:
+                frequency_map[neighbor] = 1
+            else:
+                frequency_map[neighbor] += 1
+
+    max_occurred_num = max(frequency_map.values())
+    for pattern, occurrences in frequency_map.items():
+        if occurrences == max_occurred_num:
+            patterns.append(pattern)
+    return patterns
